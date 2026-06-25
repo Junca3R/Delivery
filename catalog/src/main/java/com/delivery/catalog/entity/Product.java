@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Product {
     
     @Id// calve primaria de la tabla
-    @GeneratedValue(strategy = GenerationType.IDENTITY)// autoincrementable
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//autoincrementable
     private Long id;// atributo de la tabla
 
     private String name;

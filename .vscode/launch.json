@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MsCustomersApplication<ms-customers>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.delivery.customers.MsCustomersApplication",
+            "projectName": "ms-customers",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
