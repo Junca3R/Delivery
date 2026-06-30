@@ -9,6 +9,16 @@
             "projectName": "ms-customers",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MsOrdersApplication<ms-orders>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.delivery.orders.MsOrdersApplication",
+            "projectName": "ms-orders",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------
+  # BASES DE DATOS
+  # ----------------------------------------------------
+  db-catalog:
+    image: mysql:8.0 #imagen significa que se descargará la versión 8.0 de MySQL
+    container_name: db-catalog # Nombre del contenedor
+    environment: # Variables de entorno para configurar la base de datos
+      MYSQL_ROOT_PASSWORD: admin 
+      MYSQL_DATABASE: db_catalog
+    ports:
+      - "3307:3306" # Mapeamos al puerto 3307 de  para no chocar si tengo un MySQL local
+    volumes:
+      - mysql_catalog_data:/var/lib/mysql # Persistencia de datos: mapeamos un volumen para que los datos de la base de datos se mantengan incluso si el contenedor se reinicia o se elimina.
+
+  db-postgres:
+    image: postgres:15-alpine # Utilizamos la versión 15 de Postgres con la variante Alpine para tener una imagen más ligera
+    container_name: db-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      # Postgres no crea múltiples BD de forma nativa en el arranque, 
+      # así que crearemos db_customers por defecto y db_orders se creará por el driver de Spring
+      POSTGRES_DB: db_customers 
+    ports:
+      - "5433:5432" # Mapeamos al puerto 5433 de tu PC por si tienes un Postgres local
+    volumes:
+      - postgres_delivery_data:/var/lib/postgresql/data
+
+  # ----------------------------------------------------
+  # MICROSERVICIOS
+  # ----------------------------------------------------
+  ms-catalog:
+    build:
+      context: ./catalog
+      dockerfile: Dockerfile
+    container_name: ms-catalog
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-catalog:3306/db_catalog
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on: #depends dice qe no intente arrancar codigo java hatsa que revise si la  base de datos y otros servicios esten levantados , evitando errores 
+      - db-catalog
+
+  ms-customers:
+    build:
+      context: ./customers
+      dockerfile: Dockerfile
+    container_name: ms-customers
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-postgres:5432/db_customers
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      - db-postgres
+
+  ms-orders:
+    build:
+      context: ./ms-orders
+      dockerfile: Dockerfile
+    container_name: ms-orders
+    ports:
+      - "8083:8083"
+    environment:
+      # Apuntamos a la misma base de datos Postgres pero a una BD diferente (db_orders)
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-postgres:5432/db_orders
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      - db-postgres
+      - ms-catalog
+      - ms-customers
+
+volumes:
+  mysql_catalog_data:
+  postgres_delivery_data:

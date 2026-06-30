@@ -1,5 +1,5 @@
 # Paso 1: Compilación
-FROM maven:3.8.8-eclipse-temurin-17 AS build 
+FROM maven:3.8.8-eclipse-temurin-17 AS build
 WORKDIR /app
 
 COPY pom.xml .
