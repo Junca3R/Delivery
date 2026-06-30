@@ -26,24 +26,5 @@ public class Order {
     private Double totalPrice;
     private String status; // PENDIENTE, PROCESADO, CANCELADO
 
-    public Long getCustomerId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Long getProductId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Integer getQuantity() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-   
-    public void setStatus(String procesado) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setTotalPrice(double d) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
 }

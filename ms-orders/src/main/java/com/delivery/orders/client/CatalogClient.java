@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.delivery.orders.dto.ProductDTO;
 
-@FeignClient(name = "ms-catalog", url = "http://localhost:8081")// anotacion para indicar que esta interfaz es un cliente Feign que se 
+@FeignClient(name = "ms-catalog", url = "http://ms-catalog:8081")// anotacion para indicar que esta interfaz es un cliente Feign que se 
 // comunica con el microservicio de catalogo
 public interface CatalogClient {//
 

@@ -15,7 +15,7 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 # Copiar el JAR generado desde la etapa de compilación
-COPY --from=build /app/target/ms-catalog-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/catalog-0.0.1-SNAPSHOT.jar app.jar
 
 # Exponer el puerto en el que corre nuestro servicio
 EXPOSE 8081
